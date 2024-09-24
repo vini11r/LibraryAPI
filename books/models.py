@@ -16,8 +16,12 @@ class Author(models.Model):
 
 class Books(models.Model):
     title = models.CharField(max_length=255, verbose_name="Название книги")
-    author = models.ManyToManyField(Author, max_length=255, verbose_name="Автор", related_name="author_book")
-    publication_year = models.IntegerField(verbose_name="Год издания", blank=True, null=True)
+    author = models.ManyToManyField(
+        Author, max_length=255, verbose_name="Автор", related_name="author_book"
+    )
+    publication_year = models.IntegerField(
+        verbose_name="Год издания", blank=True, null=True
+    )
     genre = models.CharField(max_length=255, verbose_name="Жанр", blank=True, null=True)
     description = models.TextField(verbose_name="Описание", blank=True, null=True)
 
@@ -30,8 +34,12 @@ class Books(models.Model):
 
 
 class BookIssuance(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name="Пользователь")
-    book = models.ForeignKey(Books, on_delete=models.CASCADE, verbose_name="Выданная книга")
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name="Пользователь"
+    )
+    book = models.ForeignKey(
+        Books, on_delete=models.CASCADE, verbose_name="Выданная книга"
+    )
     issue_date = models.DateField(auto_now_add=True, verbose_name="Дата выдачи")
     due_date = models.DateField(verbose_name="Дата возврата")
     returned = models.BooleanField(default=False, verbose_name="Возвращена")

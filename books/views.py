@@ -1,17 +1,20 @@
-from django.shortcuts import get_object_or_404
-from rest_framework.response import Response
-from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 
 from books.models import Books, Author, BookIssuance
-from books.serializers import BooksSerializer, AuthorSerializer, BookIssuanceSerializer, BookDetailsSerializer, AuthorDetailsSerializer
+from books.serializers import (
+    BooksSerializer,
+    AuthorSerializer,
+    BookIssuanceSerializer,
+    BookDetailsSerializer,
+    AuthorDetailsSerializer,
+)
 
 
 class BooksViewSet(ModelViewSet):
     queryset = Books.objects.all()
 
     def get_serializer_class(self):
-        if self.action == 'retrieve':
+        if self.action == "retrieve":
             return BookDetailsSerializer
         return BooksSerializer
 
@@ -25,7 +28,7 @@ class AuthorViewSet(ModelViewSet):
     queryset = Author.objects.all()
 
     def get_serializer_class(self):
-        if self.action == 'retrieve':
+        if self.action == "retrieve":
             return AuthorDetailsSerializer
         return AuthorSerializer
 
@@ -35,6 +38,6 @@ class AuthorViewSet(ModelViewSet):
     #     return Response(serializer.data)
 
 
-class BookIssuanceAPIView(APIView):
+class BookIssuanceViewSet(ModelViewSet):
     queryset = BookIssuance.objects.all()
     serializer_class = BookIssuanceSerializer
