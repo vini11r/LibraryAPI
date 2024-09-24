@@ -9,22 +9,30 @@ from books.serializers import BooksSerializer, AuthorSerializer, BookIssuanceSer
 
 class BooksViewSet(ModelViewSet):
     queryset = Books.objects.all()
-    serializer_class = BooksSerializer
 
-    def retrieve(self, request, pk=None, **kwargs):
-        queryset = Books.objects.all().filter(pk=pk)
-        serializer = BookDetailsSerializer(queryset, many=True)
-        return Response(serializer.data)
+    def get_serializer_class(self):
+        if self.action == 'retrieve':
+            return BookDetailsSerializer
+        return BooksSerializer
+
+    # def retrieve(self, request, pk=None, **kwargs):
+    #     queryset = Books.objects.all().filter(pk=pk)
+    #     serializer = BookDetailsSerializer(queryset, many=True)
+    #     return Response(serializer.data)
 
 
 class AuthorViewSet(ModelViewSet):
     queryset = Author.objects.all()
-    serializer_class = AuthorSerializer
 
-    def retrieve(self, request, pk=None, **kwargs):
-        queryset = Author.objects.all().filter(pk=pk)
-        serializer = AuthorDetailsSerializer(queryset, many=True)
-        return Response(serializer.data)
+    def get_serializer_class(self):
+        if self.action == 'retrieve':
+            return AuthorDetailsSerializer
+        return AuthorSerializer
+
+    # def retrieve(self, request, pk=None, **kwargs):
+    #     queryset = Author.objects.all().filter(pk=pk)
+    #     serializer = AuthorDetailsSerializer(queryset, many=True)
+    #     return Response(serializer.data)
 
 
 class BookIssuanceAPIView(APIView):
