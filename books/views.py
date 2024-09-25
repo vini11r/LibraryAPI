@@ -44,6 +44,12 @@ class BookIssuanceViewSet(ModelViewSet):
     serializer_class = BookIssuanceSerializer
 
     def perform_create(self, serializer):
+        """
+        Проверяем, возвращена ли книга.
+        Если да, сохраняем выпуск.
+        Если нет, выкидываем исключение.
+
+        """
         issuance = BookIssuance.objects.all().filter(returned=False)
         book_id = serializer.validated_data['book']
         if issuance.filter(book_id=book_id).exists() is False:
