@@ -1,3 +1,4 @@
+from rest_framework.exceptions import ValidationError
 from rest_framework.viewsets import ModelViewSet
 
 from books.models import Books, Author, BookIssuance
@@ -41,3 +42,17 @@ class AuthorViewSet(ModelViewSet):
 class BookIssuanceViewSet(ModelViewSet):
     queryset = BookIssuance.objects.all()
     serializer_class = BookIssuanceSerializer
+
+    def perform_create(self, serializer):
+        issuance = BookIssuance.objects.all().filter(returned=False)
+        book_id = serializer.validated_data['book']
+        if issuance.filter(book_id=book_id).exists() is False:
+            serializer.save()
+        else:
+            raise ValidationError ("Эта книга еще не возвращена")
+
+
+
+
+
+
