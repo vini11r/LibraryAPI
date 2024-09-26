@@ -8,6 +8,7 @@ from books.serializers import (
     BookIssuanceSerializer,
     BookDetailsSerializer,
     AuthorDetailsSerializer,
+    BookDetailIssuanceSerializer,
 )
 
 
@@ -51,14 +52,13 @@ class BookIssuanceViewSet(ModelViewSet):
 
         """
         issuance = BookIssuance.objects.all().filter(returned=False)
-        book_id = serializer.validated_data['book']
+        book_id = serializer.validated_data["book"]
         if issuance.filter(book_id=book_id).exists() is False:
             serializer.save()
         else:
-            raise ValidationError ("Эта книга еще не возвращена")
+            raise ValidationError("Эта книга еще не возвращена")
 
-
-
-
-
-
+    def get_serializer_class(self):
+        if self.action == "retrieve":
+            return BookDetailIssuanceSerializer
+        return BookIssuanceSerializer

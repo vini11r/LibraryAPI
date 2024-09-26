@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from rest_framework.fields import SerializerMethodField
 
 from books.models import Books, Author, BookIssuance
 
@@ -14,9 +15,14 @@ class AuthorSerializer(serializers.ModelSerializer):
 
 
 class BooksSerializer(serializers.ModelSerializer):
+    book_author = SerializerMethodField()
+
+    def get_book_author(self, obj):
+        return [author.last_name for author in obj.author.all()]
+
     class Meta:
         model = Books
-        fields = "__all__"
+        fields = ("title", "publication_year", "genre", "description", "book_author")
 
 
 class AuthorDetailsSerializer(serializers.ModelSerializer):
@@ -43,6 +49,21 @@ class BookDetailsSerializer(serializers.ModelSerializer):
 
 
 class BookIssuanceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BookIssuance
+        fields = "__all__"
+
+
+class BookDetailIssuanceSerializer(serializers.ModelSerializer):
+    book = SerializerMethodField()
+    user = SerializerMethodField()
+
+    def get_book(self, obj):
+        return f"Книга - {obj.book.title}, id книги - {obj.book.pk}"
+
+    def get_user(self, obj):
+        return obj.user.email
+
     class Meta:
         model = BookIssuance
         fields = "__all__"
