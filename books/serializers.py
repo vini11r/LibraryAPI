@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from rest_framework.fields import SerializerMethodField
 
-from books.models import Books, Author, BookIssuance
+from books.models import Author, BookIssuance, Books
 
 
 class AuthorSerializer(serializers.ModelSerializer):
@@ -22,7 +22,14 @@ class BooksSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Books
-        fields = ("title", "publication_year", "genre", "description", "book_author")
+        fields = (
+            "id",
+            "title",
+            "publication_year",
+            "genre",
+            "description",
+            "book_author",
+        )
 
 
 class AuthorDetailsSerializer(serializers.ModelSerializer):

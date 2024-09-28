@@ -1,7 +1,7 @@
 from rest_framework.routers import DefaultRouter
 
 from books.apps import BooksConfig
-from books.views import BooksViewSet, AuthorViewSet, BookIssuanceViewSet
+from books.views import AuthorViewSet, BookIssuanceViewSet, BooksViewSet
 
 app_name = BooksConfig.name
 
