@@ -8,8 +8,9 @@ from books.models import Author, BookIssuance, Books
 from books.serializers import (AuthorDetailsSerializer, AuthorSerializer,
                                BookDetailIssuanceSerializer,
                                BookDetailsSerializer, BookIssuanceSerializer,
-                               BooksSerializer)
+                               BooksSerializer, BookCreateSerializer)
 from config.settings import CACHE_ENABLED
+from users.permissions import IsLibrarian
 
 
 class BooksViewSet(ModelViewSet):
@@ -26,9 +27,16 @@ class BooksViewSet(ModelViewSet):
         "genre",
     )
 
+    def get_permissions(self):
+        if self.action in ["update", "destroy", "create", "partial_update"]:
+            self.permission_classes = (IsLibrarian,)
+        return super().get_permissions()
+
     def get_serializer_class(self):
         if self.action == "retrieve":
             return BookDetailsSerializer
+        elif self.action == "create":
+            return BookCreateSerializer
         return BooksSerializer
 
     def get_queryset(self):
@@ -55,6 +63,11 @@ class AuthorViewSet(ModelViewSet):
         "last_name",
     )
 
+    def get_permissions(self):
+        if self.action in ["update", "destroy", "create", "partial_update"]:
+            self.permission_classes = (IsLibrarian,)
+        return super().get_permissions()
+
     def get_serializer_class(self):
         if self.action == "retrieve":
             return AuthorDetailsSerializer
@@ -64,6 +77,7 @@ class AuthorViewSet(ModelViewSet):
 class BookIssuanceViewSet(ModelViewSet):
     queryset = BookIssuance.objects.all()
     serializer_class = BookIssuanceSerializer
+    permission_classes = (IsLibrarian,)
 
     filter_backends = [
         DjangoFilterBackend,

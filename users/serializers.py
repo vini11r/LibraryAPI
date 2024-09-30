@@ -30,7 +30,7 @@ class UserDetailsSerializer(serializers.ModelSerializer):
 class UserCreateUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ("email", "password", "phone", "first_name", "last_name")
+        fields = ("id", "email", "password", "phone", "first_name", "last_name")
         validators = [
             user_password,
         ]
