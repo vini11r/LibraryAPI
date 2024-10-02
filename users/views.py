@@ -3,11 +3,8 @@ from rest_framework.viewsets import ModelViewSet
 
 from users.models import User
 from users.permissions import IsLibrarian, IsUser
-from users.serializers import (
-    UserCreateUpdateSerializer,
-    UserDetailsSerializer,
-    UserSerializer,
-)
+from users.serializers import (UserCreateUpdateSerializer,
+                               UserDetailsSerializer, UserSerializer)
 
 
 class UserViewSet(ModelViewSet):

@@ -5,15 +5,11 @@ from rest_framework.exceptions import ValidationError
 from rest_framework.viewsets import ModelViewSet
 
 from books.models import Author, BookIssuance, Books
-from books.serializers import (
-    AuthorDetailsSerializer,
-    AuthorSerializer,
-    BookCreateSerializer,
-    BookDetailIssuanceSerializer,
-    BookDetailsSerializer,
-    BookIssuanceSerializer,
-    BooksSerializer,
-)
+from books.serializers import (AuthorDetailsSerializer, AuthorSerializer,
+                               BookCreateSerializer,
+                               BookDetailIssuanceSerializer,
+                               BookDetailsSerializer, BookIssuanceSerializer,
+                               BooksSerializer)
 from config.settings import CACHE_ENABLED
 from users.permissions import IsLibrarian
 
