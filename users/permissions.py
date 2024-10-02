@@ -16,6 +16,6 @@ class IsUser(permissions.BasePermission):
     """
 
     def has_object_permission(self, request, view, obj):
-        if request.user.id == obj.id:
+        if request.user == obj:
             return True
         return False
